@@ -18,11 +18,6 @@ gulp.task('polyfills', function () {
     .pipe(concat("polyfills.bundle.js"))
     .pipe(gulp.dest('../Seed/wwwroot'));
 });
-gulp.task('styles', function () {
-  return gulp.src(['dist/styles.*.js'])
-    .pipe(concat("styles.bundle.js"))
-    .pipe(gulp.dest('../Seed/wwwroot'));
-});
 gulp.task('vendor', function () {
   return gulp.src(['dist/vendor.*.js'])
     .pipe(concat("vendor.bundle.js"))
@@ -55,7 +50,6 @@ gulp.task('default', [
   'inline',
   'main',
   'polyfills',
-  'styles',
   'vendor',
   'css',
   'icon',
