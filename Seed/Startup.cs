@@ -7,7 +7,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 using Seed.Repository;
+using Seed.EntityFramework;
 
 namespace Seed
 {
@@ -29,7 +31,10 @@ namespace Seed
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddTransient<IProductRepository, FakeProductRepository>();
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(Configuration["Data:SportStoreProducts:ConnectionString"]));
+            services.AddTransient<IProductRepository, EFProductRepository>();
+            // services.AddTransient<IProductRepository, FakeProductRepository>();
             services.AddMvc();
         }
 
@@ -58,6 +63,7 @@ namespace Seed
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+            SeedData.EnsurePopulated(app);
         }
     }
 }
