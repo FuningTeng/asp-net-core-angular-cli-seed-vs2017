@@ -27,7 +27,7 @@ namespace Seed.Controllers
             var products = productRepository.Products.ToList(token);
             if (await products != null)
             {
-                return Ok(products);
+                return Ok(products.Result);
             }
             return NotFound();
         }
@@ -39,7 +39,7 @@ namespace Seed.Controllers
             var product = productRepository.Products.FirstOrDefault(r => r.ProductID == id, token);
             if (await product != null)
             {
-                return Ok(product);
+                return Ok(product.Result);
             }
             return NotFound();
         }
@@ -50,7 +50,7 @@ namespace Seed.Controllers
         {
             if (ModelState.IsValid)
             {
-                await productRepository.SaveProductAync(value, token);
+                await productRepository.SaveProductAync(value, token).ConfigureAwait(false);
                 return Ok(value);
             }
             else
